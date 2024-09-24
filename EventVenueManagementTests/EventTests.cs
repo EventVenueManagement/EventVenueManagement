@@ -1,8 +1,6 @@
-using FluentAssertions;
-
 namespace EventVenueManagementTests;
 
-public class Tests
+public class EventTests
 {
     [SetUp]
     public void Setup()
@@ -12,6 +10,6 @@ public class Tests
     [Test]
     public void Test1()
     {
-        1231.Should().Be(23423);
+        
     }
 }
