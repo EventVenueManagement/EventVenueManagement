@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "z3/eYojr+oLjCA8Xx1qjKzJCFY5IfZAXe+I3gApM+sS+oPoeMoWqgPrweInNUvDOPofT06qRsppdG15bmUVUEw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\javie\\OneDrive\\Documentos\\Programming\\C#\\EventVenueManagement\\EventVenueManagementCore\\EventVenueManagementCore.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\javie\\.nuget\\packages\\fluentassertions\\6.12.1\\fluentassertions.6.12.1.nupkg.sha512",
+    "C:\\Users\\javie\\.nuget\\packages\\system.configuration.configurationmanager\\4.4.0\\system.configuration.configurationmanager.4.4.0.nupkg.sha512",
+    "C:\\Users\\javie\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.4.0\\system.security.cryptography.protecteddata.4.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
