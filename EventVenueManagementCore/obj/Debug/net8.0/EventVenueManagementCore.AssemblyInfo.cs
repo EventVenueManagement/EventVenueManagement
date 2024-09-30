@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventVenueManagementCore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e782c3b05730bf42a4d67c95ba4884837ec0e2f7")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventVenueManagementCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventVenueManagementCore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
