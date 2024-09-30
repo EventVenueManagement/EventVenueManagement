@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventVenueManagementCore", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventVenueManagementTests", "EventVenueManagementTests\EventVenueManagementTests.csproj", "{17D822D6-628F-4DCC-9F5E-2C84E19E2BB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventVenueManagementAPI", "EventVenueManagementAPI\EventVenueManagementAPI.csproj", "{23EE39AD-EEEE-49B6-AB77-61A7211B0FD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{17D822D6-628F-4DCC-9F5E-2C84E19E2BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17D822D6-628F-4DCC-9F5E-2C84E19E2BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17D822D6-628F-4DCC-9F5E-2C84E19E2BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23EE39AD-EEEE-49B6-AB77-61A7211B0FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23EE39AD-EEEE-49B6-AB77-61A7211B0FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23EE39AD-EEEE-49B6-AB77-61A7211B0FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23EE39AD-EEEE-49B6-AB77-61A7211B0FD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
