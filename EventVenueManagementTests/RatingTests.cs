@@ -24,11 +24,15 @@ public class RatingTests
 
 public class Rating
 {
-    public Rating(float score)
+    public readonly string Comment;
+    public readonly DateTime Date = DateTime.Now;
+    public Rating(float score, string comment = "")
     {
         if (score is < 0 or > 5)
             throw new ArgumentException("Score must be between 0 and 5");
         Score = (int)(score*2);
+        
+        Comment = comment;
     }
 
     public int Score { get; private set; }
