@@ -19,4 +19,5 @@ public class Event
 
 public enum EventType
 {
+    Concert
 }
