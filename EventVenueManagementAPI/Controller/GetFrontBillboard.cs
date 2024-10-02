@@ -1,32 +1,11 @@
-﻿using System.Net;
-using EventVenueManagementCore;
+﻿using EventVenueManagementCore;
 
 namespace EventVenueManagementAPI.Controller;
 
-public class GetFrontBillboard : OurController
+public class GetFrontBillboard(Venue model) : GetController<IEnumerable<Event.EventBrief>>
 {
-    private readonly Venue model;
-
-    public GetFrontBillboard(Venue model)
-    {
-        this.model = model;
-    }
-
-    public HttpResponseMessage Execute()
-    {
-        return new HttpResponseMessage(HttpStatusCode.Accepted);
-    }
-    public IEnumerable<Event.EventBrief> ExecuteInternal()
+    public IEnumerable<Event.EventBrief> Execute()
     {
         return model.GetEvents().Select(x => x.GetBrief());
     }
 }
-
-public class Venue
-{
-    public virtual List<Event> GetEvents()
-    {
-        throw new NotImplementedException();
-    }
-}
-
