@@ -29,7 +29,7 @@ public class GetFrontBillboardTests
         
         var sut = new GetFrontBillboard(venue);
         
-        sut.Execute().Should().BeEquivalentTo(new List<Event.EventBrief>
+        sut.Execute().Value.Should().BeEquivalentTo(new List<Event.EventBrief>
         {
             event1.GetBrief(),
             event2.GetBrief(),

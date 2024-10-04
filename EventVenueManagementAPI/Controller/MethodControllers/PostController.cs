@@ -1,10 +1,6 @@
 ﻿namespace EventVenueManagementAPI.Controller.MethodControllers;
 
-public interface PostController<in T>
+public interface PostController<in T, out R> where R : IResult
 {
-    public HttpResponseMessage Execute(T input);
-}
-public interface PostController<in T, out K>
-{
-    public K Execute(T input);
+    public R Execute(T input);
 }

@@ -1,12 +1,13 @@
 ﻿using EventVenueManagementAPI.Controller.MethodControllers;
 using EventVenueManagementCore;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EventVenueManagementAPI.Controller;
 
-public class GetFrontBillboard(Venue model) : GetController<IEnumerable<Event.EventBrief>>
+public class GetFrontBillboard(Venue model) : GetController<Ok<IEnumerable<Event.EventBrief>>>
 {
-    public IEnumerable<Event.EventBrief> Execute()
+    public Ok<IEnumerable<Event.EventBrief>> Execute()
     {
-        return model.GetEvents().Select(x => x.GetBrief());
+        return TypedResults.Ok(model.GetEvents().Select(x => x.GetBrief()));
     }
 }

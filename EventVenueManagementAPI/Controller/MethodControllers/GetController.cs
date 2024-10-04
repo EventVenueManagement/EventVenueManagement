@@ -1,12 +1,12 @@
 ﻿namespace EventVenueManagementAPI.Controller.MethodControllers;
 
 
-public interface GetController<out T>
+public interface GetController<out R> where R : IResult
 {
-    public T Execute();
+    public R Execute();
 }
 
-public interface GetController<in T, out K>
+public interface GetController<in T, out R> where R : IResult
 {
-    public K Execute(T input);
+    public R Execute(T input);
 }

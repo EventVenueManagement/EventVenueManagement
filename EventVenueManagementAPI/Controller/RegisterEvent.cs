@@ -1,15 +1,15 @@
 ﻿using System.Net;
-using EventVenueManagementAPI.Controller;
 using EventVenueManagementAPI.Controller.MethodControllers;
 using EventVenueManagementCore;
+using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace EventVenueManagementAPI;
+namespace EventVenueManagementAPI.Controller;
 
-public class RegisterEvent(Venue model) : PostController<Event>
+public class RegisterEvent(Venue model) : PostController<Event, Results<Created, Conflict>>
 {
-    public HttpResponseMessage Execute(Event input)
+    public Results<Created, Conflict> Execute(Event input)
     {
         bool isAdded = model.AddEvent(input);
-        return new HttpResponseMessage(isAdded ? HttpStatusCode.Accepted : HttpStatusCode.Conflict);
+        return isAdded ? TypedResults.Created() : TypedResults.Conflict();
     }
 }
