@@ -32,6 +32,8 @@ venue.AddEvent(new Event() {
 });
 
 app.MapPost("/event" , (Event @event) => new RegisterEvent(venue).Execute(@event));
+app.MapPost("/events" , (List<Event> events) => new RegisterEvents(venue).Execute(events));
+app.MapGet("/event/{name}" , (string name) => new GetEvent(venue).Execute(name));
 app.MapGet("/frontbillboard" , () => new GetFrontBillboard(venue).Execute());
 
 

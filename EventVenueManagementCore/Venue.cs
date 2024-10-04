@@ -3,10 +3,7 @@
 public class Venue
 {
     private readonly List<Event> events = new();
-    public virtual IEnumerable<Event> GetEvents()
-    {
-        return events;
-    }
+    public virtual IEnumerable<Event> GetEvents() => events;
 
     public bool AddEvent(Event newEvent)
     {
@@ -15,5 +12,15 @@ public class Venue
         events.Add(newEvent);
         
         return true;
+    }
+
+    public List<Event> AddMultipleEvents(IEnumerable<Event> input)
+    {
+        return input.Where(e => !AddEvent(e)).ToList();
+    }
+
+    public Event? GetEvent(string name)
+    {
+        return events.FirstOrDefault(e => e.Name == name);
     }
 }
