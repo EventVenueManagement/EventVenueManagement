@@ -15,6 +15,20 @@ public class Event
     {
         return new EventBrief(Name, Summary, ImageUrl, RecommendedAge);
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is Event other)
+        {
+            return Name == other.Name;
+        }
+        return false;
+    }
+    
+    public override int GetHashCode()
+    {
+        return Name.GetHashCode();
+    }
 }
 
 public enum EventType

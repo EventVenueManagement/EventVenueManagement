@@ -1,4 +1,5 @@
-﻿using EventVenueManagementCore;
+﻿using EventVenueManagementAPI.Controller.MethodControllers;
+using EventVenueManagementCore;
 
 namespace EventVenueManagementAPI.Controller;
 

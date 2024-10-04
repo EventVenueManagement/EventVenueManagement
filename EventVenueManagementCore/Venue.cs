@@ -8,8 +8,12 @@ public class Venue
         return events;
     }
 
-    public void AddEvent(Event newEvent)
+    public bool AddEvent(Event newEvent)
     {
+        if (events.Contains(newEvent)) return false;
+        
         events.Add(newEvent);
+        
+        return true;
     }
 }

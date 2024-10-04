@@ -22,5 +22,16 @@ public class VenueTests
         sut.GetEvents().Should().BeEquivalentTo(new List<Event> { randomEvent });
     }
 
+    [Test]
+    public void EventsDontDuplicateOnVenue()
+    {
+        var sut = new Venue();
+        var randomEvent = EventTests.GenerateRandomEvent();
+        sut.AddEvent(randomEvent);
+        sut.AddEvent(randomEvent);
+
+        sut.GetEvents().Count().Should().Be(1);
+    }
+
     
 }
