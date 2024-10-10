@@ -8,6 +8,6 @@ public class GetFrontBillboard(Venue model) : GetController<Ok<IEnumerable<Event
 {
     public Ok<IEnumerable<Event.EventBrief>> Execute()
     {
-        return TypedResults.Ok(model.GetEvents().Select(x => x.GetBrief()));
+        return TypedResults.Ok(model.GetEventsBrief());
     }
 }

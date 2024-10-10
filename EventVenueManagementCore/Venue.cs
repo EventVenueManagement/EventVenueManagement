@@ -23,4 +23,9 @@ public class Venue
     {
         return events.FirstOrDefault(e => e.Name == name);
     }
+    
+    public IEnumerable<Event.EventBrief> GetEventsBrief()
+    {
+        return events.Select(e => e.GetBrief());
+    }
 }
