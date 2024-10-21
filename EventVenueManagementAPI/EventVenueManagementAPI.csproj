@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <IsTestProject>false</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,5 +23,6 @@
     <ItemGroup>
       <ProjectReference Include="..\EventVenueManagementCore\EventVenueManagementCore.csproj" />
     </ItemGroup>
+
 
 </Project>
