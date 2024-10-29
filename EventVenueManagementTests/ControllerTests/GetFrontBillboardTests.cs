@@ -7,7 +7,6 @@ namespace EventVenueManagementTests.ControllerTests;
 public class GetFrontBillboardTests
 {
     [Test]
-    [Ignore("ignored")]
     public void GetFrontBillboardWithFilms()
     {
         var venue = new Venue();

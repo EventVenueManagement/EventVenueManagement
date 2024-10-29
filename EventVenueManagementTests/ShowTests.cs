@@ -21,4 +21,18 @@ public class ShowTests
         );
         sut.PriceOf("-1").IsNone.Should().BeTrue();
     }
+
+    [Test]
+    public void BuySeat()
+    {
+        var zone = new Zone(new List<Zone.Seat>(){
+            new("0", 10),
+        });
+        
+        var sut = new Show(new Room(zone));
+
+        sut.BuySeat("0").Should().BeTrue();
+        sut.IsAvailable("0").Should().BeFalse();
+        sut.BuySeat("0").Should().BeFalse();
+    }
 }
