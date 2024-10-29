@@ -44,6 +44,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "LanguageExt.Core": {
+              "target": "Package",
+              "version": "[4.4.9, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -115,6 +119,10 @@
             "FluentAssertions": {
               "target": "Package",
               "version": "[6.12.1, )"
+            },
+            "LanguageExt.Core": {
+              "target": "Package",
+              "version": "[4.4.9, )"
             }
           },
           "imports": [
@@ -180,6 +188,10 @@
             "FluentAssertions": {
               "target": "Package",
               "version": "[6.12.1, )"
+            },
+            "LanguageExt.Core": {
+              "target": "Package",
+              "version": "[4.4.9, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",

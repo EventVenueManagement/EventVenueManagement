@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.12.1" />
+      <PackageReference Include="LanguageExt.Core" Version="4.4.9" />
     </ItemGroup>
 
 </Project>
