@@ -1,9 +1,23 @@
 namespace EventVenueManagementTests;
 
-public class Show
+public class Show(Room room)
 {
-    public Show(Room roomObject)
+    private List<Zone.Seat> seats = new();
+    public bool BuySeat(string id)
     {
-        throw new NotImplementedException();
+        if (!IsAvailable(id)) return false;
+
+        return room.PriceOf(id).Map(x => new Zone.Seat(id, x)).Match(
+            Some: x => { 
+                seats.Add(x);
+                return true;
+            },
+            None: false
+        );
+    }
+
+    public bool IsAvailable(string s)
+    {
+        return seats.All(x => x.Id != s);
     }
 }
