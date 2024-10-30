@@ -8,4 +8,14 @@ public class Room(Zone zone)
     {
         return zone.GetSeat(id).Map(x => x.Price);
     }
+
+    public Option<Zone.Seat> GetSeat(string id)
+    {
+        return zone.GetSeat(id);
+    }
+
+    public bool SeatExist(string id)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -7,7 +7,7 @@ public class Show(Room room)
     {
         if (!IsAvailable(id)) return false;
 
-        return room.PriceOf(id).Map(x => new Zone.Seat(id, x)).Match(
+        return room.GetSeat(id).Match(
             Some: x => { 
                 seats.Add(x);
                 return true;
