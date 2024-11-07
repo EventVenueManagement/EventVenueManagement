@@ -9,11 +9,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 app.UseHttpsRedirection();
 
@@ -31,6 +31,8 @@ venue.AddEvent(new Event() {
     RecommendedAge = 21
 });
 
+
+app.MapGet("/", () => Console.WriteLine("hola"));
 app.MapPost("/event" , (Event @event) => new RegisterEvent(venue).Execute(@event));
 app.MapPost("/events" , (List<Event> events) => new RegisterEvents(venue).Execute(events));
 app.MapGet("/event/{name}" , (string name) => new GetEvent(venue).Execute(name));
