@@ -63,8 +63,4 @@ jobs:
           
       - name: Set connection string in Azure
         run: |
-          az webapp config connection-string set `
-            --name 'EventVenueManagementAPI' `
-            --resource-group 'EventVenueManagement' `
-            --settings DATABASE_CONNECTION=${{ secrets.DATABASE_CONNECTION }} `
-            --connection-string-type PostgreSQL 
+          az webapp config connection-string set --name 'EventVenueManagementAPI' --resource-group 'EventVenueManagement' --settings DATABASE_CONNECTION=${{ secrets.DATABASE_CONNECTION }} --connection-string-type PostgreSQL
