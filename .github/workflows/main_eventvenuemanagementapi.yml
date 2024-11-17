@@ -60,3 +60,11 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_83A112AB3B294FD8A03D3A7D5DF15088 }}
           package: .
+          
+      - name: Set connection string in Azure
+        run: |
+          az webapp config connection-string set \
+            --name 'EventVenueManagementAPI' \
+            --resource-group 'EventVenueManagement' \
+            --settings DATABASE_CONNECTION=${{ secrets.DATABASE_CONNECTION }} \
+            --connection-string-type PostgreSQL 
