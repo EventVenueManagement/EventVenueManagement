@@ -1,11 +1,19 @@
 using EventVenueManagementAPI;
 using EventVenueManagementAPI.Controller;
 using EventVenueManagementCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION")
+                       ?? builder.Configuration.GetConnectionString("DATABASE_CONNECTION");
+
+builder.Services.AddDbContext<EventVenueDB>(options => options.UseNpgsql(connectionString));
+
+
 
 var app = builder.Build();
 
@@ -37,6 +45,6 @@ app.MapPost("/event" , (Event @event) => new RegisterEvent(venue).Execute(@event
 app.MapPost("/events" , (List<Event> events) => new RegisterEvents(venue).Execute(events));
 app.MapGet("/event/{name}" , (string name) => new GetEvent(venue).Execute(name));
 app.MapGet("/frontbillboard" , () => new GetFrontBillboard(venue).Execute());
-
+app.MapGet("/connection", () => connectionString);
 
 app.Run();
