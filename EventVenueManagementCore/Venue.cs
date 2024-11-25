@@ -1,15 +1,19 @@
-﻿namespace EventVenueManagementCore;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EventVenueManagementCore;
 
 public class Venue
 {
-    private readonly List<Event> events = new();
-    public virtual IEnumerable<Event> GetEvents() => events;
+    [Key]
+    public Guid Id { get; set; }
+    private ICollection<Event> Events { get; } = [];
+    public virtual IEnumerable<Event> GetEvents() => Events;
 
     public bool AddEvent(Event newEvent)
     {
-        if (events.Contains(newEvent)) return false;
+        if (Events.Contains(newEvent)) return false;
         
-        events.Add(newEvent);
+        Events.Add(newEvent);
         
         return true;
     }
@@ -21,11 +25,11 @@ public class Venue
 
     public Event? GetEvent(string name)
     {
-        return events.FirstOrDefault(e => e.Name == name);
+        return Events.FirstOrDefault(e => e.Name == name);
     }
     
     public IEnumerable<Event.EventBrief> GetEventsBrief()
     {
-        return events.Select(e => e.GetBrief());
+        return Events.Select(e => e.GetBrief());
     }
 }
