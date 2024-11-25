@@ -7,7 +7,9 @@ public class Venue
     [Key]
     public Guid Id { get; set; }
     private ICollection<Event> Events { get; } = [];
+
     public virtual IEnumerable<Event> GetEvents() => Events;
+    
 
     public bool AddEvent(Event newEvent)
     {
