@@ -53,7 +53,7 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
     return new Supabase.Client(supabaseUrl, supabaseKey, options);
 });
 
-var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_SIGNATURE_KEY")!));
+var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SUPABASE_SIGNATURE_KEY")!));
 const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
 var validAudiences = new List<string> { "authenticated" };
  
@@ -110,7 +110,7 @@ app.MapGet("/login", async (Supabase.Client sc) =>
 app.Run();
 return;
 
-static string? GetEnvironmentVariable(WebApplicationBuilder webApplicationBuilder, string variable)
+static string GetEnvironmentVariable(WebApplicationBuilder webApplicationBuilder, string variable)
 {
-    return Environment.GetEnvironmentVariable(variable) ?? (webApplicationBuilder.Configuration.GetConnectionString(variable) ?? webApplicationBuilder.Configuration[variable]);
+    return (Environment.GetEnvironmentVariable(variable) ?? (webApplicationBuilder.Configuration.GetConnectionString(variable) ?? webApplicationBuilder.Configuration[variable])) ?? string.Empty;
 }
