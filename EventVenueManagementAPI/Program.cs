@@ -54,22 +54,22 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
 });
 
 
-//  
-// builder.Services.AddAuthentication().AddJwtBearer(o =>
-// {
-//     var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_KEY")));
-//     const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
-//     var validAudiences = new List<string> { "authenticated" };
-//     
-//     o.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidateIssuerSigningKey = true,
-//         IssuerSigningKey = supabaseSignatureKey,
-//         ValidAudiences = validAudiences,
-//         ValidIssuer = validIssuers
-//     };
-// });
-// builder.Services.AddAuthorization();
+ 
+builder.Services.AddAuthentication().AddJwtBearer(o =>
+{
+    var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_KEY")));
+    const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
+    var validAudiences = new List<string> { "authenticated" };
+    
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = supabaseSignatureKey,
+        ValidAudiences = validAudiences,
+        ValidIssuer = validIssuers
+    };
+});
+builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<Venue>(sp =>
 {   
