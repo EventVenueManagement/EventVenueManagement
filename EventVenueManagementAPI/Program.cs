@@ -39,7 +39,12 @@ builder.Services.AddSwaggerGen(setup =>
 });
 
 builder.Services.AddDbContext<EventVenueDB>(
-    options => options.UseNpgsql( GetEnvironmentVariable(builder, "DATABASE_CONNECTION"))
+    options => options.UseNpgsql( GetEnvironmentVariable(builder, "DATABASE_CONNECTION"),
+        optionsBuilder =>
+        {
+            optionsBuilder.CommandTimeout(300);
+        } 
+    )
 );
 
 builder.Services.AddSingleton<Supabase.Client>(_ =>
