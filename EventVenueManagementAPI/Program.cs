@@ -105,12 +105,12 @@ app.MapGet("/frontbillboard" , (Venue venue) => new GetFrontBillboard(venue).Exe
 app.MapGet("/login", async (Supabase.Client sc) =>
 {
     var session = await sc.Auth.SignIn("javiertorralbocortes@gmail.com", "123");
-    return session.AccessToken;
+    return session?.AccessToken;
 });
 app.Run();
 return;
 
 static string? GetEnvironmentVariable(WebApplicationBuilder webApplicationBuilder, string variable)
 {
-    return webApplicationBuilder.Configuration.GetConnectionString(variable) ?? webApplicationBuilder.Configuration[variable] ?? Environment.GetEnvironmentVariable(variable);
+    return Environment.GetEnvironmentVariable(variable) ?? (webApplicationBuilder.Configuration.GetConnectionString(variable) ?? webApplicationBuilder.Configuration[variable]);
 }
