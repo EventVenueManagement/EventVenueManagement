@@ -39,13 +39,13 @@ builder.Services.AddSwaggerGen(setup =>
 });
 
 builder.Services.AddDbContext<EventVenueDB>(
-    options => options.UseNpgsql( builder.Configuration.GetConnectionString("DATABASE_CONNECTION") ?? Environment.GetEnvironmentVariable("DATABASE_CONNECTION"))
+    options => options.UseNpgsql( GetEnvironmentVariable(builder, "DATABASE_CONNECTION"))
 );
 
 builder.Services.AddSingleton<Supabase.Client>(_ =>
 {
-    var supabaseUrl = builder.Configuration["SUPABASE_URL"];
-    var supabaseKey = builder.Configuration["SUPABASE_KEY"];
+    var supabaseUrl = GetEnvironmentVariable(builder, "SUPABASE_URL");
+    var supabaseKey = GetEnvironmentVariable(builder, "SUPABASE_KEY");
     var options = new Supabase.SupabaseOptions
     {
         AutoConnectRealtime = true,
@@ -53,7 +53,7 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
     return new Supabase.Client(supabaseUrl, supabaseKey, options);
 });
 
-var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SUPABASE_SIGNATURE_KEY"]!));
+var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_SIGNATURE_KEY") ?? string.Empty));
 const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
 var validAudiences = new List<string> { "authenticated" };
  
@@ -108,3 +108,9 @@ app.MapGet("/login", async (Supabase.Client sc) =>
     return session.AccessToken;
 });
 app.Run();
+return;
+
+static string? GetEnvironmentVariable(WebApplicationBuilder webApplicationBuilder, string variable)
+{
+    return webApplicationBuilder.Configuration.GetConnectionString(variable) ?? webApplicationBuilder.Configuration[variable] ?? Environment.GetEnvironmentVariable(variable);
+}
