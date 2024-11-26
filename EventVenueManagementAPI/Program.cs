@@ -53,7 +53,7 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
     return new Supabase.Client(supabaseUrl, supabaseKey, options);
 });
 
-var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_SIGNATURE_KEY") ?? string.Empty));
+var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_SIGNATURE_KEY")!));
 const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
 var validAudiences = new List<string> { "authenticated" };
  
