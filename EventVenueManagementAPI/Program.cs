@@ -53,12 +53,14 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
     return new Supabase.Client(supabaseUrl, supabaseKey, options);
 });
 
-var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SUPABASE_SIGNATURE_KEY")!));
-const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
-var validAudiences = new List<string> { "authenticated" };
+
  
 builder.Services.AddAuthentication().AddJwtBearer(o =>
 {
+    var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_SIGNATURE_KEY")));
+    const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
+    var validAudiences = new List<string> { "authenticated" };
+    
     o.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
