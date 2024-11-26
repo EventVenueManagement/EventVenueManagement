@@ -1,21 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace EventVenueManagementCore;
 
 public class Venue
 {
     [Key]
-    public Guid Id { get; set; }
-    private ICollection<Event> Events { get; } = [];
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    public Guid OwnerId { get; set; }
+    public ICollection<Event> Events { get; set; } = [];
 
     public virtual IEnumerable<Event> GetEvents() => Events;
-    
 
     public bool AddEvent(Event newEvent)
     {
         if (Events.Contains(newEvent)) return false;
         
         Events.Add(newEvent);
+        
         
         return true;
     }

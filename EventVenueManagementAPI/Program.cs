@@ -1,11 +1,12 @@
+using System.Security.Claims;
 using System.Text;
 using EventVenueManagementAPI.Controller;
 using EventVenueManagementCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Supabase.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +42,6 @@ builder.Services.AddDbContext<EventVenueDB>(
     options => options.UseNpgsql( builder.Configuration.GetConnectionString("DATABASE_CONNECTION") ?? Environment.GetEnvironmentVariable("DATABASE_CONNECTION"))
 );
 
-builder.Services.AddScoped<Venue>();
 builder.Services.AddSingleton<Supabase.Client>(_ =>
 {
     var supabaseUrl = builder.Configuration["SUPABASE_URL"];
@@ -54,8 +54,8 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
 });
 
 var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SUPABASE_SIGNATURE_KEY"]!));
-var validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
-var validAudiences = new List<string>() { "authenticated" };
+const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
+var validAudiences = new List<string> { "authenticated" };
  
 builder.Services.AddAuthentication().AddJwtBearer(o =>
 {
@@ -68,9 +68,24 @@ builder.Services.AddAuthentication().AddJwtBearer(o =>
     };
 });
 builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<Venue>(sp =>
+{   
+    var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
+    var db = sp.GetRequiredService<EventVenueDB>();
+    
+    var claims = httpContextAccessor.HttpContext?.User?.Claims.ToList() ?? [];
+    var sub = claims.FirstOrDefault(c => c.Type == "sub", new Claim("sub", "")).Value;
+    var subGuid = Guid.Parse(sub);
+    var venue = db.Venues.Include(v => v.Events).FirstOrDefault(
+        v => v.OwnerId == subGuid) ?? db.Venues.Add(new Venue { OwnerId = subGuid }).Entity;
+    db.SaveChanges();
+    return venue;
+});
+
 
 var app = builder.Build();
-
+JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 app.UseAuthentication()
     .UseAuthorization();
 
@@ -82,8 +97,8 @@ app.UseAuthentication()
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", (EventVenueDB db) => db.Events).RequireAuthorization();
-app.MapPost("/event" , (Event @event, EventVenueDB db, Venue venue) => new RegisterEvent(venue, db).Execute(@event));
+app.MapGet("/", (Venue venue) => venue.Id + " " + venue.OwnerId + venue.GetEvents().Count()).RequireAuthorization();
+app.MapPost("/event" , (Event @event, Venue venue) => new RegisterEvent(venue).Execute(@event));
 app.MapPost("/events" , (List<Event> events, Venue venue) => new RegisterEvents(venue).Execute(events));
 app.MapGet("/event/{name}" , (string name, Venue venue) => new GetEvent(venue).Execute(name));
 app.MapGet("/frontbillboard" , (Venue venue) => new GetFrontBillboard(venue).Execute());
