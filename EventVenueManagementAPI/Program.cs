@@ -57,7 +57,7 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
  
 builder.Services.AddAuthentication().AddJwtBearer(o =>
 {
-    var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_SIGNATURE_KEY")));
+    var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_KEY")));
     const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
     var validAudiences = new List<string> { "authenticated" };
     
@@ -86,6 +86,8 @@ builder.Services.AddScoped<Venue>(sp =>
 });
 
 
+
+
 var app = builder.Build();
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 app.UseAuthentication()
@@ -104,6 +106,7 @@ app.MapPost("/event" , (Event @event, Venue venue, EventVenueDB db) => new Regis
 app.MapPost("/events" , (List<Event> events, Venue venue) => new RegisterEvents(venue).Execute(events));
 app.MapGet("/event/{name}" , (string name, Venue venue) => new GetEvent(venue).Execute(name));
 app.MapGet("/frontbillboard" , (Venue venue) => new GetFrontBillboard(venue).Execute());
+app.MapGet("/env", () => builder.Configuration.GetChildren().Select(c => $"{c.Key}={c.Value}"));
 app.MapGet("/login", async (Supabase.Client sc) =>
 {
     var session = await sc.Auth.SignIn("javiertorralbocortes@gmail.com", "123");
@@ -112,7 +115,7 @@ app.MapGet("/login", async (Supabase.Client sc) =>
 app.Run();
 return;
 
-static string GetEnvironmentVariable(WebApplicationBuilder webApplicationBuilder, string variable)
+static string GetEnvironmentVariable(WebApplicationBuilder builder, string variable)
 {
-    return (Environment.GetEnvironmentVariable(variable) ?? (webApplicationBuilder.Configuration.GetConnectionString(variable) ?? webApplicationBuilder.Configuration[variable])) ?? string.Empty;
+    return (builder.Configuration.GetConnectionString(variable) ?? builder.Configuration[variable]) ?? string.Empty;
 }
