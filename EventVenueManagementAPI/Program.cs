@@ -90,8 +90,8 @@ builder.Services.AddScoped<Venue>(sp =>
 
 var app = builder.Build();
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
-app.UseAuthentication()
-    .UseAuthorization();
+// app.UseAuthentication()
+    // .UseAuthorization();
 
 // if (app.Environment.IsDevelopment())
 // {
