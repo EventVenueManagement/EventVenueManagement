@@ -91,8 +91,8 @@ builder.Services.AddScoped<Venue>(sp =>
 
 var app = builder.Build();
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
-// app.UseAuthentication()
-    // .UseAuthorization();
+app.UseAuthentication()
+    .UseAuthorization();
 
 // if (app.Environment.IsDevelopment())
 // {
@@ -102,8 +102,8 @@ JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => "hello"); //.RequireAuthorization();
-app.MapPost("/event" , (Event @event, Venue venue, EventVenueDB db) => new RegisterEvent(venue, db).Execute(@event)); //.RequireAuthorization();
+app.MapGet("/", () => "hello").RequireAuthorization();
+app.MapPost("/event" , (Event @event, Venue venue, EventVenueDB db) => new RegisterEvent(venue, db).Execute(@event)).RequireAuthorization();
 app.MapPost("/events" , (List<Event> events, Venue venue) => new RegisterEvents(venue).Execute(events));
 app.MapGet("/event/{name}" , (string name, Venue venue) => new GetEvent(venue).Execute(name));
 app.MapGet("/frontbillboard" , (Venue venue) => new GetFrontBillboard(venue).Execute());
