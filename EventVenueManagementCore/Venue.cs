@@ -15,11 +15,11 @@ public class Venue
 
     public bool AddEvent(Event newEvent)
     {
+        newEvent.VenueId = Id;
         if (Events.Contains(newEvent)) return false;
         
         Events.Add(newEvent);
-        
-        
+
         return true;
     }
 

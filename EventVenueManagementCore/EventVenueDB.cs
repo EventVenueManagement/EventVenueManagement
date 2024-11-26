@@ -6,14 +6,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
 
 namespace EventVenueManagementCore;
 
-public class EventVenueDB : DbContext
+public class EventVenueDB(DbContextOptions<EventVenueDB> options) : DbContext(options)
 {
-    public EventVenueDB(DbContextOptions<EventVenueDB> options) : base(options)
-    {
-        // var connString = options.Extensions.OfType<NpgsqlOptionsExtension>().FirstOrDefault()?.ConnectionString;
-        // Console.WriteLine($"Connection String: {connString}");
-    }
-
     public DbSet<Venue> Venues { get; set; }
     public DbSet<Event> Events { get; set; }
 
@@ -22,7 +16,7 @@ public class EventVenueDB : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Event>()
             .HasOne<Venue>()
-            .WithMany()
+            .WithMany(v => v.Events)
             .HasForeignKey(e => e.VenueId)
             .IsRequired();
     }

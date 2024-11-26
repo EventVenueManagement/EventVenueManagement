@@ -14,7 +14,6 @@ public class Event
     public int RecommendedAge { get; set; }
     public float Price { get; set; }
     public EventType Type { get; set; }
-    
     public Guid VenueId { get; set; }
     
     public EventBrief GetBrief()

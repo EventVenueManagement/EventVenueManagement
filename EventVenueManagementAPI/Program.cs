@@ -98,7 +98,7 @@ app.UseAuthentication()
 app.UseHttpsRedirection();
 
 app.MapGet("/", (Venue venue) => venue.Id + " " + venue.OwnerId + venue.GetEvents().Count()).RequireAuthorization();
-app.MapPost("/event" , (Event @event, Venue venue) => new RegisterEvent(venue).Execute(@event));
+app.MapPost("/event" , (Event @event, Venue venue, EventVenueDB db) => new RegisterEvent(venue, db).Execute(@event)).RequireAuthorization();
 app.MapPost("/events" , (List<Event> events, Venue venue) => new RegisterEvents(venue).Execute(events));
 app.MapGet("/event/{name}" , (string name, Venue venue) => new GetEvent(venue).Execute(name));
 app.MapGet("/frontbillboard" , (Venue venue) => new GetFrontBillboard(venue).Execute());
