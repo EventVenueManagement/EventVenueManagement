@@ -57,7 +57,7 @@ builder.Services.AddSingleton<Supabase.Client>(_ =>
  
 builder.Services.AddAuthentication().AddJwtBearer(o =>
 {
-    var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_KEY")));
+    var supabaseSignatureKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetEnvironmentVariable(builder, "SUPABASE_SIGNATURE_KEY")));
     const string validIssuers = "https://epffdwtxkoxgdfdoyemj.supabase.co/auth/v1";
     var validAudiences = new List<string> { "authenticated" };
     
@@ -78,6 +78,7 @@ builder.Services.AddScoped<Venue>(sp =>
     
     var claims = httpContextAccessor.HttpContext?.User?.Claims.ToList() ?? [];
     var sub = claims.FirstOrDefault(c => c.Type == "sub", new Claim("sub", "")).Value;
+
     var subGuid = Guid.Parse(sub);
     var venue = db.Venues.Include(v => v.Events).FirstOrDefault(
         v => v.OwnerId == subGuid) ?? db.Venues.Add(new Venue { OwnerId = subGuid }).Entity;
@@ -101,7 +102,7 @@ JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", (Venue venue) => venue.Id + " " + venue.OwnerId + venue.GetEvents().Count()); //.RequireAuthorization();
+app.MapGet("/", () => "hello"); //.RequireAuthorization();
 app.MapPost("/event" , (Event @event, Venue venue, EventVenueDB db) => new RegisterEvent(venue, db).Execute(@event)); //.RequireAuthorization();
 app.MapPost("/events" , (List<Event> events, Venue venue) => new RegisterEvents(venue).Execute(events));
 app.MapGet("/event/{name}" , (string name, Venue venue) => new GetEvent(venue).Execute(name));
