@@ -7,7 +7,7 @@ namespace EventVenueManagementTests.ControllerTests;
 public class GetFrontBillboardTests
 {
     [Test]
-    public void GetFrontBillboardWithFilms()
+    public async Task GetFrontBillboardWithFilms()
     {
         var venue = new Venue();
 
@@ -27,9 +27,9 @@ public class GetFrontBillboardTests
         venue.AddEvent(event1);
         venue.AddEvent(event2);
         
-        var sut = new GetFrontBillboard(venue);
+        var sut = new GetFrontBillboard(Task.FromResult(venue));
         
-        sut.Execute().Value.Should().BeEquivalentTo(new List<Event.EventBrief>
+        (await sut.Execute()).Value.Should().BeEquivalentTo(new List<Event.EventBrief>
         {
             event1.GetBrief(),
             event2.GetBrief(),
