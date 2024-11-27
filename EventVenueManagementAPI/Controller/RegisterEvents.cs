@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EventVenueManagementAPI.Controller;
 
-public class RegisterEvents(Venue model) : PostController<List<Event>, Results<Created, Conflict<string>>>
+public class RegisterEvents(Task<Venue> modelPromise, EventVenueDB db) : PostController<List<Event>, Results<Created, Conflict<string>>>
 {
-    public Results<Created, Conflict<string>> Execute(List<Event> input)
+    public async Task<Results<Created, Conflict<string>>> Execute(List<Event> input)
     {
-        var duplicatedEvents = 
-            model.AddMultipleEvents(input).Select(e => e.Name).ToList();
+        var duplicatedEvents =
+            (await modelPromise).AddMultipleEvents(input).Select(e => e.Name).ToList();
+        await db.SaveChangesAsync();
         if (duplicatedEvents.Count != input.Count)
         {
             return TypedResults.Created();

@@ -76,21 +76,20 @@ builder.Services.AddAuthentication().AddJwtBearer(o =>
 });
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<Venue>(sp =>
+builder.Services.AddScoped<Task<Venue>>(async sp =>
 {   
     var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
     var db = sp.GetRequiredService<EventVenueDB>();
     
-    var claims = httpContextAccessor.HttpContext?.User?.Claims.ToList() ?? [];
+    var claims = httpContextAccessor.HttpContext?.User.Claims.ToList() ?? [];
     var sub = claims.FirstOrDefault(c => c.Type == "sub", new Claim("sub", "")).Value;
 
     var subGuid = Guid.Parse(sub);
-    var venue = db.Venues.Include(v => v.Events).FirstOrDefault(
-        v => v.OwnerId == subGuid) ?? db.Venues.Add(new Venue { OwnerId = subGuid }).Entity;
-    db.SaveChanges();
+    var venue = await db.Venues.Include(v => v.Events).FirstOrDefaultAsync(
+        v => v.OwnerId == subGuid) ?? (await db.Venues.AddAsync(new Venue { OwnerId = subGuid })).Entity;
+    await db.SaveChangesAsync();
     return venue;
 });
-
 
 
 
@@ -108,10 +107,10 @@ app.UseAuthentication()
 app.UseHttpsRedirection();
 
 app.MapGet("/", () => "hello").RequireAuthorization();
-app.MapPost("/event" , (Event @event, Venue venue, EventVenueDB db) => new RegisterEvent(venue, db).Execute(@event)).RequireAuthorization();
-app.MapPost("/events" , (List<Event> events, Venue venue) => new RegisterEvents(venue).Execute(events));
-app.MapGet("/event/{name}" , (string name, Venue venue) => new GetEvent(venue).Execute(name));
-app.MapGet("/frontbillboard" , (Venue venue) => new GetFrontBillboard(venue).Execute());
+app.MapPost("/event" , (Event @event, Task<Venue> venue, EventVenueDB db) => new RegisterEvent(venue, db).Execute(@event)).RequireAuthorization();
+app.MapPost("/events" , (List<Event> events, Task<Venue> venue, EventVenueDB db) => new RegisterEvents(venue, db).Execute(events));
+app.MapGet("/event/{name}" , (string name, Task<Venue> venue) => new GetEvent(venue).Execute(name));
+app.MapGet("/frontbillboard" , (Task<Venue> venue) => new GetFrontBillboard(venue).Execute());
 app.MapGet("/env", () => builder.Configuration.GetChildren().Select(c => $"{c.Key}={c.Value}"));
 app.MapGet("/login", async (Supabase.Client sc) =>
 {

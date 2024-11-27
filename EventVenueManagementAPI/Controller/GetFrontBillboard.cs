@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EventVenueManagementAPI.Controller;
 
-public class GetFrontBillboard(Venue model) : GetController<Ok<IEnumerable<Event.EventBrief>>>
+public class GetFrontBillboard(Task<Venue> modelPromise) : GetController<Ok<IEnumerable<Event.EventBrief>>>
 {
-    public Ok<IEnumerable<Event.EventBrief>> Execute()
+    public async Task<Ok<IEnumerable<Event.EventBrief>>> Execute()
     {
-        return TypedResults.Ok(model.GetEventsBrief());
+        return TypedResults.Ok((await modelPromise).GetEventsBrief());
     }
 }

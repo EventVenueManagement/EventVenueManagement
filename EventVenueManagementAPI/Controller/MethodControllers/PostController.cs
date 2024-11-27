@@ -1,6 +1,8 @@
-﻿namespace EventVenueManagementAPI.Controller.MethodControllers;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
 
-public interface PostController<in T, out R> where R : IResult
+namespace EventVenueManagementAPI.Controller.MethodControllers;
+
+public interface PostController<in T, R> where R : IResult
 {
-    public R Execute(T input);
+    public Task<R> Execute(T input);
 }
