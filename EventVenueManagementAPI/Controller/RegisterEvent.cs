@@ -13,7 +13,7 @@ public class RegisterEvent(Task<Venue> modelPromise, EventVenueDB db) : PostCont
 
         if (!isAdded) return TypedResults.Conflict();
         
-        await db.SaveChangesAsync();
+        // await db.SaveChangesAsync();
         return TypedResults.Created();
     }
 }
